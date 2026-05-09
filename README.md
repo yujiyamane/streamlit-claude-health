@@ -143,9 +143,10 @@ Single denormalised table: `ed_visits.csv` (150,000 records)
 
 | Metric | Traditional | Claude Code | Improvement |
 |--------|-------------|-------------|-------------|
-| **Development Time** | 10+ days | 3 hours | **96% reduction** |
+| **Total Development** | 10+ days | 1 hour | **98%+ reduction** |
+| **Planning & Design** | 1-2 days | 15 minutes | **97% reduction** |
 | **Data Generation** | 1-2 days | 20 minutes | **95% reduction** |
-| **Dashboard Build** | 5-7 days | 2 hours | **93% reduction** |
+| **Dashboard Build** | 5-7 days | 45 minutes | **95% reduction** |
 | **Documentation** | 1-2 days | 20 minutes | **95% reduction** |
 | **Deployment** | 1 day | 10 minutes | **93% reduction** |
 

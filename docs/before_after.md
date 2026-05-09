@@ -12,14 +12,15 @@
 
 | Phase | Traditional Method | Claude Code | Time Reduction |
 |-------|-------------------|-------------|----------------|
+| **Planning & Design** | 1-2 days | 15 minutes | **97% reduction** |
 | **Data Model Design** | 1 day | 10 minutes | **93% reduction** |
 | **Data Generation** | 1-2 days | 20 minutes | **95% reduction** |
-| **Streamlit App Build** | 5-7 days | 2 hours | **93% reduction** |
-| **Plotly Visualisations** | 2-3 days | 45 minutes | **90% reduction** |
-| **Theming & UX** | 1 day | 20 minutes | **93% reduction** |
+| **Streamlit App Build** | 5-7 days | 45 minutes | **95% reduction** |
+| **Plotly Visualisations** | 2-3 days | (included above) | **95% reduction** |
+| **Theming & UX** | 1 day | (included above) | **95% reduction** |
 | **Documentation** | 1 day | 20 minutes | **95% reduction** |
 | **Deployment** | 1 day | 10 minutes | **93% reduction** |
-| **Total** | **10-15 days** | **3 hours** | **96% reduction** |
+| **Total** | **10-15 days** | **1 hour** | **98%+ reduction** |
 
 ---
 

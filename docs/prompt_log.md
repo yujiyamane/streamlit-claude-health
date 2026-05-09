@@ -4,33 +4,25 @@ This file records the Claude Code interactions used to build the Streamlit ED Pe
 
 ---
 
-## Session 1: Data Architecture & Generation (20 min)
+## Session 1: Planning & Data Architecture (15 min)
 
-### Prompt 1.1: Data Model Design
+### Prompt 1.1: Complete Project Specification
 ```
+Create streamlit-claude-health at C:\Users\Admin\Documents\Life\Work\BI\streamlit-claude-health
+
+All files below — write them exactly as provided, then run data generation and push to GitHub.
+
 Design a denormalised data model for an ED performance dashboard.
 150K records, 10 hospitals across 5 LHDs, 2 Australian financial years.
 Include: triage categories 1-5, wait times, LOS, arrival modes, departure status,
 presenting complaints, demographics. Optimise for Streamlit sidebar filtering.
 ```
 
-**Result**: Single CSV schema with 22 fields, triage-dependent distributions, hospital-level performance variation.
-
-### Prompt 1.2: Realistic Data Patterns
-```
-Generate clinically plausible patterns:
-- Winter flu season surge (Jun-Aug)
-- Time-of-day arrival curves (peak 10-14, low overnight)
-- Triage-dependent: higher acuity → more ambulance arrivals, longer LOS
-- Hospital-level performance variation
-- Weekend/Monday effect on wait times
-```
-
-**Result**: Multi-factor multiplier system producing statistically realistic distributions.
+**Result**: Complete project structure with realistic data patterns, multi-factor multiplier system.
 
 ---
 
-## Session 2: Streamlit Application (2 hours)
+## Session 2: Implementation & Deployment (45 min)
 
 ### Prompt 2.1: App Architecture
 ```
@@ -55,7 +47,7 @@ For each page, design impactful visualisations:
 
 ---
 
-## Session 3: Deployment & Documentation (20 min)
+### Final Steps: URL Fix & Documentation Update (5 min)
 
 ### Prompt 3.1: Streamlit Cloud Setup
 ```
@@ -93,6 +85,6 @@ Mentioning Streamlit Cloud from the start influenced data path handling and cach
 
 ---
 
-## Total Time: ~3 hours
+## Total Time: ~1 hour (15min planning + 45min implementation)
 ## Traditional estimate: 10-15 days
-## Speed multiplier: ~30x faster
+## Speed multiplier: 80-120x faster
