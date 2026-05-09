@@ -10,7 +10,7 @@
 
 ## 🚀 Live Demo
 
-**[→ Open Dashboard](https://streamlit-claude-health.streamlit.app)**
+**[→ Open Dashboard](https://app-claude-health-ejb4ovad7jgptnhxf2cibw.streamlit.app)**
 
 ---
 
