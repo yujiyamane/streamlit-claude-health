@@ -145,10 +145,10 @@ Single denormalised table: `ed_visits.csv` (150,000 records)
 |--------|-------------|-------------|-------------|
 | **Total Development** | 10+ days | 1 hour | **98%+ reduction** |
 | **Planning & Design** | 1-2 days | 15 minutes | **97% reduction** |
-| **Data Generation** | 1-2 days | 20 minutes | **95% reduction** |
-| **Dashboard Build** | 5-7 days | 45 minutes | **95% reduction** |
-| **Documentation** | 1-2 days | 20 minutes | **95% reduction** |
-| **Deployment** | 1 day | 10 minutes | **93% reduction** |
+| **Implementation Build** | 5-7 days | 40 minutes | **95% reduction** |
+| **Data Generation** | 1-2 days | 2 minutes | **99% reduction** |
+| **Documentation** | 1-2 days | 2 minutes | **99% reduction** |
+| **Deployment** | 1 day | 1 minute | **99% reduction** |
 
 ---
 
