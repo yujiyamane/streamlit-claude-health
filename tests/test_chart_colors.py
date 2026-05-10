@@ -7,7 +7,7 @@ def get_app_source():
     # Get the directory of this test file
     test_dir = os.path.dirname(os.path.abspath(__file__))
     app_path = os.path.join(test_dir, "..", "app.py")
-    with open(app_path, "r") as f:
+    with open(app_path, "r", encoding="utf-8") as f:
         return f.read()
 
 BANNED_COLORS = [
