@@ -6,6 +6,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 from datetime import datetime
 import os
+from color_theme import PALETTE, CHART_SEQUENCE, HEATMAP_SCALE, PLOTLY_LAYOUT_DEFAULTS
 
 st.set_page_config(
     page_title="ED Performance Dashboard",
@@ -14,55 +15,54 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-PRIMARY = "#002664"
-SECONDARY = "#C00000"
-ACCENT_GREEN = "#00843D"
-ACCENT_AMBER = "#F7931E"
-BG_LIGHT = "#F5F5F5"
-TEXT_DARK = "#1A1A2E"
+# Replace hardcoded colors with PALETTE usage
+PRIMARY = PALETTE["primary"]
+SECONDARY = PALETTE["alert"]
+ACCENT_GREEN = PALETTE["teal"]
+ACCENT_AMBER = PALETTE["soft_pink"]
+BG_LIGHT = "#F5F5F5"  # Keep as is - not a chart color
+TEXT_DARK = PALETTE["primary"]
 
-st.markdown("""
-<style>
-    .main-header {
+st.markdown(f"""<style>
+    .main-header {{
         font-size: 2rem;
         font-weight: 700;
-        color: #002664;
+        color: {PALETTE["primary"]};
         margin-bottom: 0.5rem;
-    }
-    .sub-header {
+    }}
+    .sub-header {{
         font-size: 1rem;
         color: #666;
         margin-bottom: 2rem;
-    }
-    .metric-card {
+    }}
+    .metric-card {{
         background: white;
         padding: 1.2rem;
         border-radius: 8px;
-        border-left: 4px solid #002664;
+        border-left: 4px solid {PALETTE["primary"]};
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    .metric-value {
+    }}
+    .metric-value {{
         font-size: 2rem;
         font-weight: 700;
-        color: #002664;
-    }
-    .metric-label {
+        color: {PALETTE["primary"]};
+    }}
+    .metric-label {{
         font-size: 0.85rem;
         color: #666;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-    }
-    .alert-red { border-left-color: #C00000 !important; }
-    .alert-red .metric-value { color: #C00000 !important; }
-    .alert-green { border-left-color: #00843D !important; }
-    .alert-green .metric-value { color: #00843D !important; }
-    div[data-testid="stSidebar"] {
-        background-color: #002664;
-    }
-    div[data-testid="stSidebar"] .stMarkdown { color: white; }
-    div[data-testid="stSidebar"] label { color: white !important; }
-</style>
-""", unsafe_allow_html=True)
+    }}
+    .alert-red {{ border-left-color: {PALETTE["alert"]} !important; }}
+    .alert-red .metric-value {{ color: {PALETTE["alert"]} !important; }}
+    .alert-green {{ border-left-color: {PALETTE["teal"]} !important; }}
+    .alert-green .metric-value {{ color: {PALETTE["teal"]} !important; }}
+    div[data-testid="stSidebar"] {{
+        background-color: {PALETTE["primary"]};
+    }}
+    div[data-testid="stSidebar"] .stMarkdown {{ color: white; }}
+    div[data-testid="stSidebar"] label {{ color: white !important; }}
+</style>""", unsafe_allow_html=True)
 
 
 @st.cache_data
@@ -138,7 +138,8 @@ def page_overview(df):
             template="plotly_white",
             height=400,
             legend=dict(orientation="h", yanchor="bottom", y=1.02),
-            margin=dict(t=60, b=40)
+            margin=dict(t=60, b=40),
+            **PLOTLY_LAYOUT_DEFAULTS
         )
         fig.update_yaxes(title_text="ED Visits", secondary_y=False)
         fig.update_yaxes(title_text="Compliance %", secondary_y=True, range=[50, 100])
@@ -156,7 +157,7 @@ def page_overview(df):
             y=hosp_perf["hospital"],
             x=hosp_perf["compliance"] * 100,
             orientation="h",
-            marker_color=[SECONDARY if v < 0.8 else ACCENT_GREEN for v in hosp_perf["compliance"]],
+            marker_color=[PALETTE["alert"] if v < 0.8 else PALETTE["teal"] for v in hosp_perf["compliance"]],
             text=[f"{v:.1%}" for v in hosp_perf["compliance"]],
             textposition="auto"
         ))
@@ -166,7 +167,8 @@ def page_overview(df):
             xaxis_title="Compliance %",
             template="plotly_white",
             height=400,
-            margin=dict(t=60, b=40, l=200)
+            margin=dict(t=60, b=40, l=200),
+            **PLOTLY_LAYOUT_DEFAULTS
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -204,7 +206,8 @@ def page_wait_times(df):
             template="plotly_white",
             barmode="group",
             height=400,
-            legend=dict(orientation="h", yanchor="bottom", y=1.02)
+            legend=dict(orientation="h", yanchor="bottom", y=1.02),
+            **PLOTLY_LAYOUT_DEFAULTS
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -213,7 +216,7 @@ def page_wait_times(df):
         fig.add_trace(go.Bar(
             x=[f"Cat {r['triage_category']}: {r['triage_name']}" for _, r in triage_stats.iterrows()],
             y=triage_stats["compliance"] * 100,
-            marker_color=[ACCENT_GREEN if v >= 0.8 else ACCENT_AMBER if v >= 0.6 else SECONDARY
+            marker_color=[PALETTE["teal"] if v >= 0.8 else PALETTE["soft_pink"] if v >= 0.6 else PALETTE["alert"]
                           for v in triage_stats["compliance"]],
             text=[f"{v:.0%}" for v in triage_stats["compliance"]],
             textposition="auto"
@@ -224,7 +227,8 @@ def page_wait_times(df):
             yaxis_title="Compliance %",
             template="plotly_white",
             height=400,
-            yaxis_range=[0, 100]
+            yaxis_range=[0, 100],
+            **PLOTLY_LAYOUT_DEFAULTS
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -240,14 +244,15 @@ def page_wait_times(df):
         z=heatmap_pivot.values,
         x=[f"{h:02d}:00" for h in range(24)],
         y=day_order,
-        colorscale=[[0, ACCENT_GREEN], [0.5, ACCENT_AMBER], [1, SECONDARY]],
+        colorscale=HEATMAP_SCALE,
         colorbar_title="Median Wait (min)",
         hovertemplate="Day: %{y}<br>Hour: %{x}<br>Wait: %{z:.0f} min<extra></extra>"
     ))
     fig.update_layout(
         template="plotly_white",
         height=350,
-        margin=dict(t=20, b=40)
+        margin=dict(t=20, b=40),
+        **PLOTLY_LAYOUT_DEFAULTS
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -273,6 +278,7 @@ def page_flow(df):
             yaxis_title="Total Visits",
             template="plotly_white",
             height=400,
+            **PLOTLY_LAYOUT_DEFAULTS
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -280,7 +286,7 @@ def page_flow(df):
         dept = df["departure_status"].value_counts().reset_index()
         dept.columns = ["status", "count"]
 
-        colors = [PRIMARY, SECONDARY, ACCENT_AMBER, "#8896AB", "#333", ACCENT_GREEN]
+        colors = CHART_SEQUENCE + ["#8896AB", "#333"]
         fig = go.Figure(data=[go.Pie(
             labels=dept["status"],
             values=dept["count"],
@@ -291,6 +297,7 @@ def page_flow(df):
             title="Departure Status Distribution",
             template="plotly_white",
             height=400,
+            **PLOTLY_LAYOUT_DEFAULTS
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -313,7 +320,8 @@ def page_flow(df):
             xaxis_title="Visits",
             template="plotly_white",
             height=400,
-            margin=dict(l=200)
+            margin=dict(l=200),
+            **PLOTLY_LAYOUT_DEFAULTS
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -325,10 +333,10 @@ def page_flow(df):
             mode, path=["mode", "triage"], values="count",
             color="mode",
             color_discrete_map={
-                "Ambulance": SECONDARY,
-                "Walk-in": PRIMARY,
-                "Police/Corrections": ACCENT_AMBER,
-                "Helicopter": ACCENT_GREEN,
+                "Ambulance": PALETTE["alert"],
+                "Walk-in": PALETTE["primary"],
+                "Police/Corrections": PALETTE["soft_pink"],
+                "Helicopter": PALETTE["teal"],
                 "Other": "#8896AB"
             }
         )
@@ -336,6 +344,7 @@ def page_flow(df):
             title="Arrival Mode × Triage Category",
             template="plotly_white",
             height=400,
+            **PLOTLY_LAYOUT_DEFAULTS
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -374,7 +383,8 @@ def page_predictions(df):
         yaxis_title="ED Visits per Day",
         template="plotly_white",
         height=400,
-        legend=dict(orientation="h", yanchor="bottom", y=1.02)
+        legend=dict(orientation="h", yanchor="bottom", y=1.02),
+        **PLOTLY_LAYOUT_DEFAULTS
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -390,10 +400,7 @@ def page_predictions(df):
         fig = px.line(
             monthly_fy, x="arrival_month", y="visits",
             color="financial_year",
-            color_discrete_map={
-                "FY2024-25": PRIMARY,
-                "FY2025-26": SECONDARY,
-            },
+            color_discrete_sequence=CHART_SEQUENCE,
             markers=True
         )
         fig.update_layout(
@@ -401,7 +408,8 @@ def page_predictions(df):
             yaxis_title="ED Visits",
             template="plotly_white",
             height=400,
-            legend_title="Financial Year"
+            legend_title="Financial Year",
+            **PLOTLY_LAYOUT_DEFAULTS
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -429,6 +437,7 @@ def page_predictions(df):
             yaxis_title="Avg Visits/Day",
             template="plotly_white",
             height=400,
+            **PLOTLY_LAYOUT_DEFAULTS
         )
         st.plotly_chart(fig, use_container_width=True)
 
