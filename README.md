@@ -102,11 +102,6 @@ streamlit-claude-health/
 ├── docs/
 │   ├── before_after.md       # Development impact analysis
 │   └── prompt_log.md         # Claude Code interaction log
-├── screenshots/
-│   ├── page1_overview.png
-│   ├── page2_waittimes.png
-│   ├── page3_flow.png
-│   └── page4_forecast.png
 └── README.md
 ```
 
